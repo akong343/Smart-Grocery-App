@@ -45,7 +45,6 @@ public class App {
             System.out.println("4) View Pantry");
             System.out.println("5) Add items to Pantry");
             System.out.println("\n--Recipes--");
-            System.out.println("6) View ");
             System.out.println("6) View Recipes");
             System.out.println("7) Add a new Recipe");
             System.out.println("\n--Finalize--");
