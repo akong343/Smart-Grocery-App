@@ -21,6 +21,7 @@ public class App {
     static final String DATA_DIR = "data";
     static final String RECIPES_FILE = DATA_DIR + "/recipes.txt";
     static final String PANTRY_FILE = DATA_DIR + "/pantry.txt";
+    static final String SHOPPING_FILE = DATA_DIR + "/shopping.txt";
 
     List<Recipe> recipes;
     List<GroceryItem> pantry; // Represents items you ALREADY HAVE at home.
@@ -30,7 +31,7 @@ public class App {
         new java.io.File(DATA_DIR).mkdirs();
         recipes = JsonStorage.loadRecipes(RECIPES_FILE);
         pantry = JsonStorage.loadPantry(PANTRY_FILE);
-        shoppingList = new ArrayList<>(); // Start with an empty shopping list for the session.
+        shoppingList = JsonStorage.loadPantry(SHOPPING_FILE); // Load shopping list
     }
 
     public void run() {
@@ -62,10 +63,10 @@ public class App {
                 case 7: addRecipe(); break;
                 case 8: finalizeShoppingList(); break;
                 case 9:
-                    // Note: We only save recipes and pantry, not the temporary shopping list.
                     JsonStorage.saveRecipes(recipes, RECIPES_FILE);
                     JsonStorage.savePantry(pantry, PANTRY_FILE);
-                    System.out.println("Recipes and pantry saved. Goodbye!");
+                    JsonStorage.savePantry(shoppingList, SHOPPING_FILE); // NEW
+                    System.out.println("All data saved. Goodbye!");
                     return;
                 default:
                     System.out.println("Invalid choice. Please enter a number from 1 to 9.");
@@ -136,6 +137,8 @@ public class App {
 
             // Merge with existing items in the shopping list
             mergeItemIntoList(shoppingList, new GroceryItem(name, qty, unit));
+            JsonStorage.savePantry(shoppingList, SHOPPING_FILE); // auto save changes
+
             System.out.println("Added/updated: " + name);
         }
     }
@@ -234,9 +237,45 @@ public class App {
         }
     }
 
-    void viewRecipes() { /* ... unchanged ... */ }
-    void addRecipe() { /* ... unchanged ... */ }
+    void viewRecipes() { 
+         if (recipes.isEmpty()) {
+        System.out.println("No recipes available.");
+        return;
+    }
 
+    System.out.println("\n--- 📖 Recipes ---");
+    for (int i = 0; i < recipes.size(); i++) {
+        System.out.println((i + 1) + ") " + recipes.get(i));
+    }
+}
+
+    void addRecipe() {
+        String name = InputUtil.readLine("Recipe name: ").trim();
+    if (name.isEmpty()) {
+        System.out.println("Recipe name cannot be empty.");
+        return;
+    }
+
+    Recipe recipe = new Recipe(name);
+
+    System.out.println("Add ingredients (type 'done' to finish):");
+    while (true) {
+        String ingName = InputUtil.readLine("Ingredient name: ").trim();
+        if (ingName.equalsIgnoreCase("done") || ingName.isEmpty()) break;
+
+        double qty = parseQuantityWithDefault(
+            InputUtil.readLine("Quantity [1]: "), 1.0
+        );
+
+        String unit = InputUtil.readLine("Unit [each]: ").trim();
+        if (unit.isEmpty()) unit = "each";
+
+        recipe.addIngredient(new Ingredient(ingName, qty, unit));
+    }
+
+    recipes.add(recipe);
+    System.out.println("Recipe added: " + recipe.name);
+}
 
     // --- UTILITY METHODS ---
 

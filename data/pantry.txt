@@ -1,0 +1,3 @@
+eggs	2.0	eggs
+milk	0.25	gallon
+water	1.0	gallon

@@ -1,0 +1,10 @@
+Eggs	12.0	dozen
+water	5.0	gallon
+milk	2.0	gallon
+apples	2.0	apple
+flour	3.0	pounds
+Flour	3.0	cups
+Eggs	2.0	eggs
+milk	0.25	cup
+vanilla	0.25	teaspon
+butter	1.0	cup
