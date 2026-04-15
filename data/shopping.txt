@@ -4,7 +4,10 @@ milk	2.0	gallon
 apples	2.0	apple
 flour	3.0	pounds
 Flour	3.0	cups
-Eggs	2.0	eggs
+Eggs	14.0	eggs
 milk	0.25	cup
 vanilla	0.25	teaspon
 butter	1.0	cup
+Milk	1.0	gal
+Apples	2.0	apples
+Rice	5.0	pounds
