@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /*
-  Refactored for a list-centric workflow:
+  Basic out line for a list-centric workflow:
   1. User builds a shopping list manually.
   2. User can add ingredients from recipes to that list.
   3. User can check the final list against their pantry stock.
@@ -23,20 +23,21 @@ public class App {
     static final String PANTRY_FILE = DATA_DIR + "/pantry.txt";
     static final String SHOPPING_FILE = DATA_DIR + "/shopping.txt";
 
-    List<Recipe> recipes;
+    List<Recipe> recipes; //Recipes available
     List<GroceryItem> pantry; // Represents items you ALREADY HAVE at home.
     List<GroceryItem> shoppingList; // The list of items you plan TO BUY.
 
     public App() {
-        new java.io.File(DATA_DIR).mkdirs();
-        recipes = JsonStorage.loadRecipes(RECIPES_FILE);
-        pantry = JsonStorage.loadPantry(PANTRY_FILE);
+        new java.io.File(DATA_DIR).mkdirs(); // Create data directory if it doesn't exist
+        recipes = JsonStorage.loadRecipes(RECIPES_FILE); // Load recipes
+        pantry = JsonStorage.loadPantry(PANTRY_FILE); // Load pantry
         shoppingList = JsonStorage.loadPantry(SHOPPING_FILE); // Load shopping list
     }
 
     public void run() {
         System.out.println("\nWelcome to your Smart Grocery List!");
         while (true) {
+            // Display main menu
             System.out.println("\n--- Main Menu ---");
             System.out.println("--Shopping List (" + shoppingList.size() + " items)--");
             System.out.println("1) View/Edit Shopping List");
@@ -54,6 +55,7 @@ public class App {
 
             int c = InputUtil.readInt("\n> Your choice: ", -1);
             switch (c) {
+                // Handle menu choices
                 case 1: viewOrEditShoppingList(); break;
                 case 2: addManualItemsToList(); break;
                 case 3: addFromRecipesToList(); break;
@@ -63,6 +65,7 @@ public class App {
                 case 7: addRecipe(); break;
                 case 8: finalizeShoppingList(); break;
                 case 9:
+                    // Save data before exiting (into Json files)
                     JsonStorage.saveRecipes(recipes, RECIPES_FILE);
                     JsonStorage.savePantry(pantry, PANTRY_FILE);
                     JsonStorage.savePantry(shoppingList, SHOPPING_FILE); // NEW
@@ -74,24 +77,36 @@ public class App {
         }
     }
 
-    // --- 🛒 SHOPPING LIST METHODS ---
+    // --- SHOPPING LIST METHODS ---
 
+    /**
+     * Displays the current shopping list and allows the user to remove items or update quantities.
+     * <p>
+     * The user is presented with a list of items in their shopping list, along with options to remove items or update quantities.
+     * The user can enter 'r <number>' to remove the item at the specified number, 'q <number> <new_qty>' to update the quantity of the item at the specified number, or 'd' or 'done' to exit the loop.
+     * <p>
+     * The method will loop until the user chooses to exit.
+     */
     void viewOrEditShoppingList() {
+        // Check if the shopping list is empty
         if (shoppingList.isEmpty()) {
             System.out.println("\nYour shopping list is currently empty.");
             return;
         }
 
         while (true) {
-            System.out.println("\n--- 🛒 Current Shopping List ---");
+            // Display the current shopping list
+            System.out.println("\n--- Current Shopping List ---");
             for (int i = 0; i < shoppingList.size(); i++) {
                 System.out.println((i + 1) + ") " + shoppingList.get(i).toString());
             }
 
+            // Prompt the user for an action
             System.out.println("\nOptions: (r)emove <num>, (q)uantity <num> <new_qty>, or (d)one");
             String cmd = InputUtil.readLine("> ");
             if (cmd.trim().equalsIgnoreCase("d") || cmd.trim().equalsIgnoreCase("done")) break;
 
+            // Handle remove updates
             if (cmd.startsWith("r ")) {
                 try {
                     int n = Integer.parseInt(cmd.substring(2).trim()) - 1;
@@ -103,6 +118,8 @@ public class App {
                 } catch (Exception e) {
                     System.out.println("Invalid command format. Use 'r <number>'.");
                 }
+
+            // Handle quantity updates
             } else if (cmd.startsWith("q ")) {
                 String[] parts = cmd.substring(2).trim().split(" ");
                 if (parts.length >= 2) {
@@ -125,6 +142,7 @@ public class App {
         }
     }
 
+    // Add items to the shopping list
     void addManualItemsToList() {
         System.out.println("Add items to your shopping list. Leave name blank or type 'done' to finish.");
         while (true) {
@@ -143,6 +161,8 @@ public class App {
         }
     }
 
+    
+    // Add ingredients from recipes to the shopping list
     void addFromRecipesToList() {
         if (recipes.isEmpty()) {
             System.out.println("No recipes available to add from.");
@@ -175,13 +195,14 @@ public class App {
         }
     }
 
+    // Finalize the shopping list
     void finalizeShoppingList() {
         if (shoppingList.isEmpty()) {
             System.out.println("Your shopping list is empty. Nothing to finalize.");
             return;
         }
 
-        System.out.println("\n--- ✅ Final Shopping List (Checked Against Pantry) ---");
+        System.out.println("\n--- Final Shopping List (Checked Against Pantry) ---");
         System.out.printf("%-20s | %10s | %10s | %10s%n", "Item", "Need", "In Pantry", "TO BUY");
         System.out.println("----------------------------------------------------------------");
 
@@ -208,10 +229,11 @@ public class App {
         System.out.println("You need to buy " + itemsToBuyCount + " item(s).");
     }
 
-    // --- 🏠 PANTRY & 📖 RECIPE METHODS (Largely unchanged, but used differently) ---
+    // --- PANTRY & RECIPE METHODS (Largely unchanged, but used differently) ---
 
+    // View the pantry stock
     void viewPantry() {
-        System.out.println("\n--- 🏠 Your Pantry Stock ---");
+        System.out.println("\n--- Your Pantry Stock ---");
         if (pantry.isEmpty()) {
             System.out.println("Pantry is empty. Add items you have at home.");
             return;
@@ -221,6 +243,7 @@ public class App {
         }
     }
 
+    // Add items to the pantry
     void addPantryItem() {
         System.out.println("Add items you have at home to your pantry. Leave name blank or 'done' to finish.");
         while (true) {
@@ -237,18 +260,20 @@ public class App {
         }
     }
 
+    // View recipes
     void viewRecipes() { 
          if (recipes.isEmpty()) {
         System.out.println("No recipes available.");
         return;
     }
 
-    System.out.println("\n--- 📖 Recipes ---");
+    System.out.println("\n--- Recipes ---");
     for (int i = 0; i < recipes.size(); i++) {
         System.out.println((i + 1) + ") " + recipes.get(i));
     }
 }
 
+    // Add a recipe
     void addRecipe() {
         String name = InputUtil.readLine("Recipe name: ").trim();
     if (name.isEmpty()) {
@@ -258,6 +283,7 @@ public class App {
 
     Recipe recipe = new Recipe(name);
 
+    // Add ingredients to the recipe
     System.out.println("Add ingredients (type 'done' to finish):");
     while (true) {
         String ingName = InputUtil.readLine("Ingredient name: ").trim();
@@ -293,6 +319,7 @@ public class App {
         list.add(itemToAdd); // Not found, so add as a new item
     }
 
+    // Parse quantity from string, handling fractions
     private double parseQuantity(String qtyStr) throws NumberFormatException {
         if (qtyStr.contains("/")) {
             String[] fr = qtyStr.split("/");
@@ -320,6 +347,8 @@ public class App {
 
 }
 
+// --- MODEL CLASSES ---  
+// Model classes for the pantry and recipes  
     class Ingredient {
         String name;
         double qty;
@@ -353,12 +382,15 @@ public class App {
         public String toString() { return name + ": " + qty + " " + unit; }
     }
 
+    // --- STORAGE CLASSES ---
+    // Storage classes for the pantry and recipes
     class JsonStorage {
         // Very small, robust enough: one record per line, fields separated by tab; escape tabs/newlines
         static String esc(String s) {
             if (s == null) return "";
             return s.replace("\\", "\\\\").replace("\t", "\\t").replace("\n", "\\n");
         }
+
         static String unesc(String s) {
             if (s == null) return "";
             return s.replace("\\t", "\t").replace("\\n", "\n").replace("\\\\", "\\");
@@ -396,6 +428,14 @@ public class App {
             return out;
         }
 
+        /**
+         * Save the given list of recipes to the given file path.
+         * Each recipe is written as a single line with the format:
+         * name \t ing1|qty|unit ;; ing2...
+         */
+         * Save the given list of recipes to the given file path.
+
+/*******  9ea56991-dcbd-42c1-9fe2-2d92dd6f08c3  *******/
         static void saveRecipes(List<Recipe> recipes, String path) {
             Path p = Paths.get(path);
             try (BufferedWriter w = Files.newBufferedWriter(p)) {
@@ -442,6 +482,8 @@ public class App {
         }
     }
 
+    // --- INPUT UTIL ---
+    // Utility class for reading user input
     class InputUtil {
         static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         static String readLine(String prompt) {
