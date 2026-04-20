@@ -433,9 +433,6 @@ public class App {
          * Each recipe is written as a single line with the format:
          * name \t ing1|qty|unit ;; ing2...
          */
-         * Save the given list of recipes to the given file path.
-
-/*******  9ea56991-dcbd-42c1-9fe2-2d92dd6f08c3  *******/
         static void saveRecipes(List<Recipe> recipes, String path) {
             Path p = Paths.get(path);
             try (BufferedWriter w = Files.newBufferedWriter(p)) {
