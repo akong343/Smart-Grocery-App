@@ -7,7 +7,7 @@ public class Ingredient {
     // The ingredient name in lowercase and trimmed of extra spaces.
 
     public String name; // The numeric quantity for this ingredient (e.g., 1.5).
-    public double qty; // The unit for the quantity (e.g., "g", "cups"). Empty string if none.
+    public double qty; // The unit for the quantity (e.g., "g", "cups"). Return an empty string if none.
     public String unit;
 
     public Ingredient() {}

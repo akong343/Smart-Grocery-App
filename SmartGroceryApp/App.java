@@ -38,6 +38,7 @@ public class App {
         System.out.println("\nWelcome to your Smart Grocery List!");
         while (true) {
             // Display main menu
+            //users can input 1 - 9 to control the menu options
             System.out.println("\n--- Main Menu ---");
             System.out.println("--Shopping List (" + shoppingList.size() + " items)--");
             System.out.println("1) View/Edit Shopping List");

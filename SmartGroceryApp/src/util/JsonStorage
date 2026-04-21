@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- Very simple flat-file storage to keep the example dependency-free.
  recipes.txt format:
  recipeName
  ingredientName|qty|unit
@@ -30,7 +29,9 @@ public class JsonStorage {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    public static List<Recipe> loadRecipes(String path) {
+
+// resturned list of recipes
+    public static List<Recipe> loadRecipes(String path) { 
         List<Recipe> out = new ArrayList<>();
         File f = new File(path);
         if (!f.exists()) return out;
@@ -57,7 +58,7 @@ public class JsonStorage {
         } catch (Exception e) { e.printStackTrace(); }
         return out;
     }
-
+// pantry list of items 
     public static void savePantry(List<GroceryItem> list, String path) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(path))) {
             for (GroceryItem g : list) {

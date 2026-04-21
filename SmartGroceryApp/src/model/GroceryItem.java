@@ -11,7 +11,7 @@ public class GroceryItem {
     public String unit;
 
     public GroceryItem() {}
-    // Create an item; normalizes name and ensures unit is non-null.
+    // Create an item -> normalizes name and ensures unit is non-null.
     public GroceryItem(String name, double qty, String unit) {
         this.name = name.toLowerCase().trim();
         this.qty = qty;

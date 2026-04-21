@@ -1,9 +1,0 @@
-water	5.0	gallon
-Flour	3.0	cups
-Eggs	14.0	eggs
-vanilla	0.25	teaspon
-Rice	5.0	pounds
-eggs	2.0	egg
-udon noodle	1.0	packet
-water	3.0	cups
-salt	1.0	teaspoon

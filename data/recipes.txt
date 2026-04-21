@@ -1,2 +1,0 @@
-Pancakes	Flour|3.0|cups;;Eggs|2.0|eggs;;milk|0.25|cup;;vanilla|0.25|teaspon;;butter|1.0|cup
-noodles	udon noodle|1.0|packet;;water|3.0|cups;;salt|1.0|teaspoon

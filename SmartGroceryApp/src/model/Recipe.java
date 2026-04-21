@@ -9,13 +9,14 @@ public class Recipe {
     public String name;
     public List<Ingredient> ingredients = new ArrayList<>();
 
-    public Recipe() {}
+    public Recipe() {} 
     public Recipe(String name) { this.name = name; }
 
-    public void addIngredient(Ingredient ing) { ingredients.add(ing); }
+    public void addIngredient(Ingredient ing) { ingredients.add(ing); } // Adds an ingredient to the recipe
+
 
     @Override
-    public String toString() {
+    public String toString() { // Returns a string representation of the recipe
         StringBuilder sb = new StringBuilder();
         sb.append(name).append("\n");
         for (Ingredient i : ingredients) sb.append("  - ").append(i.toString()).append("\n");
