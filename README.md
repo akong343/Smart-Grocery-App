@@ -3,7 +3,7 @@
 ## Project Description
 The Smart Grocery List App is a Java-based console application designed to help users efficiently manage their grocery shopping. It allows users to build a shopping list manually or automatically from recipes, while also keeping track of items already available in their pantry.
 
-The app compares your shopping list against your pantry stock to determine exactly what you need to buy, helping reduce waste, save money, and streamline meal planning.
+The app compares the shopping list against the pantry stock to determine exactly what you need to buy. It helps to reduce waste, save money, and make meal planning easier.
 
 ## Features
 ### Shoping List Mangement
