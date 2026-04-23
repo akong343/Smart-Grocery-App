@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import SmartGroceryApp.src.model.GroceryItem;
+import SmartGroceryApp.src.model.Ingredient;
+import SmartGroceryApp.src.model.Recipe;
+
 /*
   Basic out line for a list focused workflow:
   1. User builds a shopping list manually.
@@ -204,7 +208,9 @@ public class App {
             return;
         }
 
-        System.out.println("\n--- Final Shopping List (Checked Against Pantry) ---"); // Print the final shopping list
+        System.out.println("\n =================================================");
+        System.out.println("   Final Shopping List (Checked Against Pantry)"); // Print the final shopping list
+        System.out.println(" =================================================");
         System.out.printf("%-20s | %10s | %10s | %10s%n", "Item", "Need", "In Pantry", "TO BUY"); // Print the header
         System.out.println("----------------------------------------------------------------");
 
@@ -350,49 +356,10 @@ public class App {
 
 }
 
-// --- Model Classes ---  
-// Model classes for the pantry and recipes  
-
-// Class to represent an ingredient    
-    class Ingredient { 
-        String name;
-        double qty;
-        String unit;
-        Ingredient(String name, double qty, String unit) { this.name = name; this.qty = qty; this.unit = unit; }
-        String key() { return name.toLowerCase().trim() + "|" + unit.toLowerCase().trim(); }
-        public String toString() { return name + ": " + qty + " " + unit; }
-    }
-// Class to represent a recipe
-    class Recipe{ 
-        String name;
-        List<Ingredient> ingredients = new ArrayList<>();
-        Recipe() {}
-        Recipe(String name) { this.name = name; }
-        void addIngredient(Ingredient i) { ingredients.add(i); }
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("Recipe: ").append(name).append("\n");
-            for (Ingredient i : ingredients) sb.append(" - ").append(i.toString()).append("\n");
-            return sb.toString();
-        }
-    }
-
-    // Class to represent a grocery item
-    class GroceryItem{
-        String name;
-        double qty;
-        String unit;
-        GroceryItem() {}
-        GroceryItem(String name, double qty, String unit) { this.name = name; this.qty = qty; this.unit = unit; }
-        String key() { return name.toLowerCase().trim() + "|" + unit.toLowerCase().trim(); }
-        public String toString() { return name + ": " + qty + " " + unit; }
-    }
-
     // --- Storage Classes ---
     // Storage classes for the pantry and recipes
     
-    // Storage class for the pantry and recipes
-    class JsonStorage { 
+      class JsonStorage { 
         static String esc(String s) {
             if (s == null) return "";
             return s.replace("\\", "\\\\").replace("\t", "\\t").replace("\n", "\\n");
