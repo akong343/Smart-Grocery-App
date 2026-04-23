@@ -1,5 +1,4 @@
 package SmartGroceryApp.src.model;
-
 // Represents a single grocery item with a normalized name, quantity, and unit.
 // Name is stored lowercase and trimmed to make comparisons and lookups consistent.
 public class GroceryItem {
@@ -20,8 +19,6 @@ public class GroceryItem {
     // Unique key used for grouping/lookup: "name|unit" if unit present, otherwise just "name".
     public String key() { return name + (unit.isEmpty() ? "" : ("|"+unit)); }
 
-    
-     //Returns a string representation of the item in the format: "[quantity] [unit] [name]"
-    @Override
+    @Override  //Returns a string representation of the item in the format: "[quantity] [unit] [name]"
     public String toString() { return qty + " " + unit + " " + name; }
 }
